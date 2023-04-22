@@ -13,7 +13,7 @@ namespace ShipsBattle
         Texture2D texture;
         Vector2 position = new Vector2(10, 10);
         float speed = 2f;
-        Entity Player = new Entity();
+        Player Player = new Player();
 
         public Game1()
         {
