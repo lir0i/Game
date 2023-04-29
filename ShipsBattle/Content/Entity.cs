@@ -11,14 +11,16 @@ namespace ShipsBattle.Content
 {
     public interface IEntity
     {
-        static int maxSpeed = 0;
         public void MoveTo(Point directoin);
-        public Vector2 Position();
+        //public Vector2 Position();
+        //public void Draw(SpriteBatch spriteBatch);
     }
 
     
-    public class Entity
+    public class Entity : IEntity
     {
+        private Texture2D _texture;
+
         private static int x;
         private static int y;
 
@@ -27,8 +29,8 @@ namespace ShipsBattle.Content
 
         public Entity() 
         { 
-            X = 0;
-            Y = 0;
+            X = 50;
+            Y = 50;
         }
         public void MoveTo(Point directoin)
         {

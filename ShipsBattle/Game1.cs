@@ -11,19 +11,30 @@ namespace ShipsBattle
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         Texture2D texture;
-        Vector2 position = new Vector2(10, 10);
-        float speed = 2f;
-        Player Player = new Player();
-
+        Vector2 position;
+        float speed;
+        Player1 Player1;
+        Player2 Player2;
+        Texture2D _background;
+        Texture2D rock;
+        Entity Rock;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            _graphics.PreferredBackBufferWidth = 1280;
+            _graphics.PreferredBackBufferHeight = 720;
+            _graphics.ApplyChanges();
         }
 
         protected override void Initialize()
-        {           
+        {
+            speed = 2f;
+            position = new Vector2(50, 50);
+            
+            Player2 = new Player2(position.X, position.Y, texture);
+            Rock = new Entity();
             base.Initialize();
         }
 
@@ -31,29 +42,44 @@ namespace ShipsBattle
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             texture = Content.Load<Texture2D>("pirat_ship");
+            Player1 = new Player1(position.X, position.Y, texture)
+            {
+                Origin = new Vector2(texture.Width / 2, texture.Height / 2)
+
+            };
+            _background = Content.Load<Texture2D>("space-stars");
+            rock = Content.Load<Texture2D>("rock");
         }
 
         protected override void Update(GameTime gameTime)
         {
+            
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            if (Keyboard.GetState().IsKeyDown(Keys.W))
-                Player.MoveTo(Direction.Forward);
-
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
-                Player.MoveTo(Direction.Left);
-
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
-                Player.MoveTo(Direction.Backward);
-
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
-                Player.MoveTo(Direction.Right);
+            Player1.Update();
 
 
-            position.X += speed;
-            if (position.X > Window.ClientBounds.Width - texture.Width || position.X < 0)
-                speed *= -1.01f;
+            if (Keyboard.GetState().IsKeyDown(Keys.I))
+                Player2.MoveTo(Direction.Forward);
+
+            if (Keyboard.GetState().IsKeyDown(Keys.J))
+                Player2.MoveTo(Direction.Left);
+
+            if (Keyboard.GetState().IsKeyDown(Keys.K))
+                Player2.MoveTo(Direction.Backward);
+
+            if (Keyboard.GetState().IsKeyDown(Keys.L))
+                Player2.MoveTo(Direction.Right);
+
+
+            if (Keyboard.GetState().IsKeyDown(Keys.U))
+                Player2.Rotate(-1);
+            if (Keyboard.GetState().IsKeyDown(Keys.O))
+                Player2.Rotate(1);
+
+
+
 
             base.Update(gameTime);
         }
@@ -63,9 +89,21 @@ namespace ShipsBattle
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _spriteBatch.Begin();
-            _spriteBatch.Draw(texture, position,new Rectangle(100, 0, 120, 200), Color.White);
+            _spriteBatch.Draw(_background, new Vector2(0, 0), Color.White);
 
-            _spriteBatch.Draw(texture, Player.Position(), new Rectangle(300, 0, 120, 200), Color.White);
+            Player1.Draw(_spriteBatch);
+
+
+            _spriteBatch.Draw(texture,
+                              Player2.Position(),
+                              null,
+                              Color.White);
+
+
+            _spriteBatch.Draw(rock, Rock.Position(), new Rectangle(0, 0, 120, 110), Color.White);
+
+
+
             _spriteBatch.End();
 
             base.Draw(gameTime);
