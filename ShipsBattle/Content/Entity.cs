@@ -11,7 +11,9 @@ namespace ShipsBattle.Content
 {
     public interface IEntity
     {
-        public void MoveTo(Point directoin);
+        public void MoveTo(Vector2 directoin);
+        public void Update();
+        public void Draw(SpriteBatch spriteBatch);
         //public Vector2 Position();
         //public void Draw(SpriteBatch spriteBatch);
     }
@@ -21,18 +23,18 @@ namespace ShipsBattle.Content
     {
         private Texture2D _texture;
 
-        private static int x;
-        private static int y;
+        private static float x;
+        private static float y;
 
-        public static int Y { get => y; set => y = value; }
-        public static int X { get => x; set => x = value; }
+        public static float Y { get => y; set => y = value; }
+        public static float X { get => x; set => x = value; }
 
         public Entity() 
         { 
             X = 50;
             Y = 50;
         }
-        public void MoveTo(Point directoin)
+        public void MoveTo(Vector2 directoin)
         {
             X += directoin.X;
             Y += directoin.Y;
@@ -40,6 +42,16 @@ namespace ShipsBattle.Content
         public Vector2 Position()
         {
             return new Vector2(X, Y);
+        }
+
+        public void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            throw new NotImplementedException();
         }
     }
 }

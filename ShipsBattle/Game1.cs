@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ShipsBattle.Content;
+using System.Collections.Generic;
 
 namespace ShipsBattle
 {
@@ -11,6 +12,7 @@ namespace ShipsBattle
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         Texture2D texture;
+        Texture2D shipsParts;
         Vector2 position;
         float speed;
         Player1 Player1;
@@ -18,6 +20,10 @@ namespace ShipsBattle
         Texture2D _background;
         Texture2D rock;
         Entity Rock;
+        public static Texture2D _splash;
+
+        public static List<Splash> splashes = new();
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -42,10 +48,11 @@ namespace ShipsBattle
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             texture = Content.Load<Texture2D>("pirat_ship");
+            _splash = Content.Load<Texture2D>("splash");
+            shipsParts = Content.Load<Texture2D>("shipsheetparts");
             Player1 = new Player1(position.X, position.Y, texture)
             {
                 Origin = new Vector2(texture.Width / 2, texture.Height / 2)
-
             };
             _background = Content.Load<Texture2D>("space-stars");
             rock = Content.Load<Texture2D>("rock");
@@ -58,6 +65,9 @@ namespace ShipsBattle
                 Exit();
 
             Player1.Update();
+
+            foreach (var splash in splashes)
+                splash.Update();
 
 
             if (Keyboard.GetState().IsKeyDown(Keys.I))
@@ -78,7 +88,7 @@ namespace ShipsBattle
             if (Keyboard.GetState().IsKeyDown(Keys.O))
                 Player2.Rotate(1);
 
-
+            
 
 
             base.Update(gameTime);
@@ -89,6 +99,15 @@ namespace ShipsBattle
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _spriteBatch.Begin();
+            
+            
+            if(splashes != null)
+            {
+                foreach (var splash in splashes)
+                    splash.Draw(_spriteBatch);
+            }
+            
+            
             _spriteBatch.Draw(_background, new Vector2(0, 0), Color.White);
 
             Player1.Draw(_spriteBatch);
@@ -100,13 +119,19 @@ namespace ShipsBattle
                               Color.White);
 
 
-            _spriteBatch.Draw(rock, Rock.Position(), new Rectangle(0, 0, 120, 110), Color.White);
+            _spriteBatch.Draw(rock, Rock.Position(), null, Color.White);
 
-
+            foreach(var splash in splashes)
+                splash.Draw(_spriteBatch);
 
             _spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        static public void ShipsFire(Vector2 position, Vector2 direction)
+        {
+            splashes.Add(new Splash(position.X, position.Y, _splash, direction));
         }
     }
 }
