@@ -41,7 +41,7 @@ namespace ShipsBattle.Content
             rotationSpeed = 0;
         }
 
-        public void MoveTo(Point directoin)
+        public void MoveTo(Vector2 directoin)
         {
             Positin.X += directoin.X;
             Positin.Y += directoin.Y;
@@ -52,33 +52,43 @@ namespace ShipsBattle.Content
             rotationSpeed = Angle;
         }
 
+        public Vector2 GetPosForSplash => new(Positin.X + 30, Positin.Y + 30);             
+                 
+           
+
         public void Update() 
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Q))
+            var pressedKey = Keyboard.GetState();
+            if (pressedKey.IsKeyDown(Keys.Q))
                 rotationSpeed -= MathHelper.ToRadians(RotationVelocity);
-            if (Keyboard.GetState().IsKeyDown(Keys.E))
+            if (pressedKey.IsKeyDown(Keys.E))
                 rotationSpeed += MathHelper.ToRadians(RotationVelocity);
 
             var direction = new Vector2((float)Math.Cos(MathHelper.ToRadians(90) - rotationSpeed), -(float)Math.Sin(MathHelper.ToRadians(90) - rotationSpeed));
 
-            if (Keyboard.GetState().IsKeyDown(Keys.W))
+            if (pressedKey.IsKeyDown(Keys.W))
             {
                 Positin += direction * LineryVelocity;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
+            if (pressedKey.IsKeyDown(Keys.S))
             {
                 Positin -= direction * LineryVelocity;
             }
 
 
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            if (pressedKey.IsKeyDown(Keys.A))
             {
                 Positin += new Vector2(direction.Y, -direction.X) * LineryVelocity;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
+            if (pressedKey.IsKeyDown(Keys.D))
             {
                 Positin -= new Vector2(direction.Y, -direction.X) * LineryVelocity;
+            }
+
+            if (pressedKey.IsKeyDown(Keys.LeftShift))
+            {
+                Game1.ShipsFire(Positin, direction);
             }
 
         }
@@ -122,7 +132,7 @@ namespace ShipsBattle.Content
             rotationSpeed = 0;
         }
 
-        public void MoveTo(Point directoin)
+        public void MoveTo(Vector2 directoin)
         {
             X += directoin.X;
             Y += directoin.Y;
@@ -141,6 +151,16 @@ namespace ShipsBattle.Content
         public void Rotate(int Angle)
         {
             rotationSpeed = Angle;
+        }
+
+        public void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            throw new NotImplementedException();
         }
     }
 }
