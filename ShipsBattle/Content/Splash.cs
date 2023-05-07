@@ -63,7 +63,7 @@ namespace ShipsBattle.Content
         public void Update()
         {
             if(!Hidden)
-                MoveTo(Direction);
+                MoveTo(Direction * speed);
         }
 
         public void Draw(SpriteBatch spriteBatch)

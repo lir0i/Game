@@ -40,7 +40,7 @@ namespace ShipsBattle
             position = new Vector2(50, 50);
             
             Player2 = new Player2(position.X, position.Y, texture);
-            Rock = new Entity();
+            
             base.Initialize();
         }
 
@@ -50,12 +50,17 @@ namespace ShipsBattle
             texture = Content.Load<Texture2D>("pirat_ship");
             _splash = Content.Load<Texture2D>("splash");
             shipsParts = Content.Load<Texture2D>("shipsheetparts");
+            rock = Content.Load<Texture2D>("rock");
+
             Player1 = new Player1(position.X, position.Y, texture)
             {
                 Origin = new Vector2(texture.Width / 2, texture.Height / 2)
             };
+            Rock = new Entity(rock);
+
+
             _background = Content.Load<Texture2D>("space-stars");
-            rock = Content.Load<Texture2D>("rock");
+            
         }
 
         protected override void Update(GameTime gameTime)
@@ -88,8 +93,9 @@ namespace ShipsBattle
             if (Keyboard.GetState().IsKeyDown(Keys.O))
                 Player2.Rotate(1);
 
-            
 
+            if (Collide())
+                Rock.ChangeColor(Color.Red);
 
             base.Update(gameTime);
         }
@@ -119,7 +125,7 @@ namespace ShipsBattle
                               Color.White);
 
 
-            _spriteBatch.Draw(rock, Rock.Position(), null, Color.White);
+            Rock.Draw(_spriteBatch);
 
             foreach(var splash in splashes)
                 splash.Draw(_spriteBatch);
@@ -132,6 +138,16 @@ namespace ShipsBattle
         static public void ShipsFire(Vector2 position, Vector2 direction)
         {
             splashes.Add(new Splash(position.X, position.Y, _splash, direction));
+        }
+
+        protected bool Collide()
+        {
+            Rectangle firstSprite = new Rectangle((int)Rock.Position().X,
+                (int)Rock.Position().Y, rock.Width, rock.Height);
+            Rectangle secondSprite = new Rectangle((int)Player1.X,
+                (int)Player1.Y, texture.Width, texture.Height);
+
+            return secondSprite.Intersects(firstSprite);
         }
     }
 }

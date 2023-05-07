@@ -21,7 +21,8 @@ namespace ShipsBattle.Content
     
     public class Entity : IEntity
     {
-        private Texture2D _texture;
+        public Texture2D _texture;
+        Color _color;
 
         private static float x;
         private static float y;
@@ -29,10 +30,12 @@ namespace ShipsBattle.Content
         public static float Y { get => y; set => y = value; }
         public static float X { get => x; set => x = value; }
 
-        public Entity() 
+        public Entity(Texture2D texture) 
         { 
-            X = 50;
-            Y = 50;
+            _texture = texture;
+            X = 200;
+            Y = 200;
+            _color = Color.White;
         }
         public void MoveTo(Vector2 directoin)
         {
@@ -49,9 +52,14 @@ namespace ShipsBattle.Content
             throw new NotImplementedException();
         }
 
+        public void ChangeColor(Color color)
+        {
+            _color = color;
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
-            throw new NotImplementedException();
+            spriteBatch.Draw(_texture, Position(), _color);
         }
     }
 }
