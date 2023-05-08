@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using ShipsBattle.Content;
 using System.Collections.Generic;
 
 namespace ShipsBattle
@@ -22,6 +21,13 @@ namespace ShipsBattle
         Entity Rock;
         public static Texture2D _splash;
 
+        
+        
+        private Drawer drawer;
+        private Controller controller;
+
+
+
         public static List<Splash> splashes = new();
 
         public Game1()
@@ -32,6 +38,10 @@ namespace ShipsBattle
             _graphics.PreferredBackBufferWidth = 1280;
             _graphics.PreferredBackBufferHeight = 720;
             _graphics.ApplyChanges();
+
+            drawer = new Drawer();
+            controller = new Controller();
+            Global.Content = Content;
         }
 
         protected override void Initialize()
@@ -40,7 +50,6 @@ namespace ShipsBattle
             position = new Vector2(50, 50);
             
             Player2 = new Player2(position.X, position.Y, texture);
-            
             base.Initialize();
         }
 
@@ -69,6 +78,11 @@ namespace ShipsBattle
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            controller.Update();
+
+
+
+            
             Player1.Update();
 
             foreach (var splash in splashes)
@@ -106,7 +120,10 @@ namespace ShipsBattle
 
             _spriteBatch.Begin();
             
-            
+            drawer.Draw(_spriteBatch);
+
+
+
             if(splashes != null)
             {
                 foreach (var splash in splashes)
@@ -135,7 +152,7 @@ namespace ShipsBattle
             base.Draw(gameTime);
         }
 
-        static public void ShipsFire(Vector2 position, Vector2 direction)
+        public static void ShipsFire(Vector2 position, Vector2 direction)
         {
             splashes.Add(new Splash(position.X, position.Y, _splash, direction));
         }

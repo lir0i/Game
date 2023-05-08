@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 
-namespace ShipsBattle.Content
+namespace ShipsBattle
 {
     public class Splash : IEntity
     {
@@ -51,18 +51,18 @@ namespace ShipsBattle.Content
             Positin.Y += directoin.Y;
         }
 
-        public  bool Hidden 
+        public bool Hidden
         {
-            get 
+            get
             {
-                return Positin.X > GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width 
+                return Positin.X > GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width
                     || Positin.Y > GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-            } 
+            }
         }
 
         public void Update()
         {
-            if(!Hidden)
+            if (!Hidden)
                 MoveTo(Direction * speed);
         }
 

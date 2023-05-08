@@ -7,18 +7,18 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShipsBattle.Content
+namespace ShipsBattle
 {
     public interface IEntity
     {
-        public void MoveTo(Vector2 directoin);
+        public void MoveTo(Vector2 direction);
         public void Update();
         public void Draw(SpriteBatch spriteBatch);
         //public Vector2 Position();
         //public void Draw(SpriteBatch spriteBatch);
     }
 
-    
+
     public class Entity : IEntity
     {
         public Texture2D _texture;
@@ -30,8 +30,8 @@ namespace ShipsBattle.Content
         public static float Y { get => y; set => y = value; }
         public static float X { get => x; set => x = value; }
 
-        public Entity(Texture2D texture) 
-        { 
+        public Entity(Texture2D texture)
+        {
             _texture = texture;
             X = 200;
             Y = 200;

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShipsBattle.Content
+namespace ShipsBattle
 {
     public class Direction 
     {

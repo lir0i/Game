@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShipsBattle.Content
+namespace ShipsBattle
 {
     public class Player1 : IEntity
     {
@@ -47,16 +47,16 @@ namespace ShipsBattle.Content
             Positin.Y += directoin.Y;
         }
 
-        public void Rotate(int Angle) 
+        public void Rotate(int Angle)
         {
             rotationSpeed = Angle;
         }
 
-        public Vector2 GetPosForSplash => new(Positin.X + 30, Positin.Y + 30);             
-                 
-           
+        public Vector2 GetPosForSplash => new(Positin.X + 30, Positin.Y + 30);
 
-        public void Update() 
+
+
+        public void Update()
         {
             var pressedKey = Keyboard.GetState();
             if (pressedKey.IsKeyDown(Keys.Q))
