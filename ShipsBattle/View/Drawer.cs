@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 
@@ -31,10 +32,23 @@ namespace ShipsBattle
             Data.Clear();
         }
 
-        private static void DrawBackground(SpriteBatch _spriteBatch)
+        public static void DrawBackground(SpriteBatch _spriteBatch)
         {
-            
+            _spriteBatch.Draw(Sprites["Background"], new Vector2(0, 0), Color.White);
         }
 
+        public static void LoadTexture()
+        {
+            AddToSprites("Player1", "pirat_ship");
+            AddToSprites("Player2", "pirat_ship");
+            AddToSprites("Splash", "splash");
+            AddToSprites("Entity", "rock");
+            AddToSprites("Background", "space-stars");
+        }
+
+        private static void AddToSprites(string type, string sprite)
+        {
+            Sprites.Add(type, Global.Content.Load<Texture2D>(sprite));
+        }
     }
 }
