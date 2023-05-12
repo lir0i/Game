@@ -10,7 +10,8 @@ namespace ShipsBattle
 {
     public class ViewData
     {
-        public readonly string Type;
+        public readonly Type Type;
+        public readonly string Name;
         public readonly Vector2 Position;
         public readonly Vector2 Origin;
         public readonly Color Color;
@@ -21,20 +22,12 @@ namespace ShipsBattle
         public readonly SpriteEffects SpriteEffects;
         public readonly float LayerDepth;
 
-        //public ViewData(string type, Vector2 position, Vector2 origin, Color color, float speed, float rotationSpeed,Rectangle sourceRectangle)
-        //{
-        //    Type = type;
-        //    Position = position;
-        //    Origin = origin;
-        //    Color = color;
-        //    Speed = speed;
-        //    RotationSpeed = rotationSpeed;
-        //    SourceRectangle = sourceRectangle;
-        //}
+        public readonly bool IsRemoved;
 
-        public ViewData(string type, Vector2 position, Color color, Vector2 origin, float speed = 0, float rotationSpeed = 0, Rectangle? sourceRectangle = null, float scale = 0, SpriteEffects spriteEffects = SpriteEffects.None, float layerDepth = 0)
+        public ViewData(Type type, string name, Vector2 position, Color color, Vector2 origin,bool isRemoved, float speed = 0, float rotationSpeed = 0, Rectangle? sourceRectangle = null, float scale = 1, SpriteEffects spriteEffects = SpriteEffects.None, float layerDepth = 0)
         {
             Type = type;
+            Name = name;
             Position = position;
             Origin = origin;
             Color = color;
@@ -44,6 +37,8 @@ namespace ShipsBattle
             Scale = scale;
             SpriteEffects = spriteEffects;
             LayerDepth = layerDepth;
+
+            IsRemoved = isRemoved;
         }
     }
 }

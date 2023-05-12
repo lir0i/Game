@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,57 +10,62 @@ using System.Threading.Tasks;
 
 namespace ShipsBattle
 {
-    public interface IEntity
+    public class Entity
     {
-        public void MoveTo(Vector2 direction);
-        public void Update();
-        public void Draw(SpriteBatch spriteBatch);
-        //public Vector2 Position();
-        //public void Draw(SpriteBatch spriteBatch);
-    }
+        public string Name;
+        public Vector2 Position;
+        public Color Color = Color.White;
+        public float Speed;
+        public Vector2 Direction;
 
+        public bool IsRemoved = false;
 
-    public class Entity : IEntity
-    {
-        public Texture2D _texture;
-        Color _color;
+        public Vector2 Origin;
+        public float Rotation;
+        public float RotationVelocity;
+        public float LinerVelocity;
+        public Rectangle? SourceRectangle = null;
+        public float Scale = 1;
 
-        private static float x;
-        private static float y;
+        //public SpriteEffects SpriteEffects = SpriteEffects.None;
+        //public float LayerDepth = 0;
 
-        public static float Y { get => y; set => y = value; }
-        public static float X { get => x; set => x = value; }
-
-        public Entity(Texture2D texture)
+        public virtual void Update(GameTime gameTime)
         {
-            _texture = texture;
-            X = 200;
-            Y = 200;
-            _color = Color.White;
-        }
-        public void MoveTo(Vector2 directoin)
-        {
-            X += directoin.X;
-            Y += directoin.Y;
-        }
-        public Vector2 Position()
-        {
-            return new Vector2(X, Y);
+            return;
         }
 
-        public void Update()
+        public void UpdateViewData()
         {
-            throw new NotImplementedException();
-        }
+            //Drawer.Data[Name] = new ViewData(
+            //    GetType(),
+            //    Name,
+            //    Position,
+            //    Color,
+            //    Origin,
+            //    IsRemoved,
+            //    Speed,
+            //    Rotation,
+            //    SourceRectangle,
+            //    Scale//,
+            //    //SpriteEffects,
+            //    //LayerDepth
+            //);
 
-        public void ChangeColor(Color color)
-        {
-            _color = color;
-        }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(_texture, Position(), _color);
+            Drawer.Data.Add(new ViewData(
+                GetType(),
+                Name,
+                Position,
+                Color,
+                Origin,
+                IsRemoved,
+                Speed,
+                Rotation,
+                SourceRectangle,
+                Scale //,
+                //SpriteEffects,
+                //LayerDepth
+            ));
         }
     }
 }

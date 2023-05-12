@@ -11,15 +11,20 @@ namespace ShipsBattle
 {
     public class Drawer
     {
-        public static Dictionary<string, Texture2D> Sprites = new();
+        private static readonly Dictionary<string, Texture2D> Sprites = new();
+
         public static List<ViewData> Data = new();
 
-        public void Draw(SpriteBatch _spriteBatch)
+        public void Draw(SpriteBatch spriteBatch)
         {
+            DrawBackground(spriteBatch);
+
             foreach (var view in Data)
             {
-                _spriteBatch.Draw(
-                    Sprites[view.Type], 
+                if (view.IsRemoved)
+                    continue;
+                spriteBatch.Draw(
+                    Sprites[view.Type.Name], 
                     view.Position ,
                     view.SourceRectangle, 
                     view.Color, 
@@ -29,19 +34,19 @@ namespace ShipsBattle
                     view.SpriteEffects, 
                     view.LayerDepth);
             }
+
             Data.Clear();
         }
 
-        public static void DrawBackground(SpriteBatch _spriteBatch)
+        private static void DrawBackground(SpriteBatch spriteBatch)
         {
-            _spriteBatch.Draw(Sprites["Background"], new Vector2(0, 0), Color.White);
+            spriteBatch.Draw(Sprites["Background"], new Vector2(0, 0), Color.White);
         }
 
         public static void LoadTexture()
         {
-            AddToSprites("Player1", "pirat_ship");
-            AddToSprites("Player2", "pirat_ship");
-            AddToSprites("Splash", "splash");
+            AddToSprites("Player", "ship (1)");
+            AddToSprites("Bullet", "splash");
             AddToSprites("Entity", "rock");
             AddToSprites("Background", "space-stars");
         }

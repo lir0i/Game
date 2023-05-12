@@ -14,6 +14,8 @@ namespace ShipsBattle
         public Drawer Drawer;
         public Controller Controller;
 
+        public static Player Player1;
+        public static Player Player2;
 
         public Game1()
         {
@@ -24,7 +26,6 @@ namespace ShipsBattle
             _graphics.PreferredBackBufferHeight = 720;
             _graphics.ApplyChanges();
 
-            
         }
 
         protected override void Initialize()
@@ -32,6 +33,8 @@ namespace ShipsBattle
             Drawer = new Drawer();
             Controller = new Controller();
             Global.Content = Content;
+
+            InitializePlayers();
 
             base.Initialize();
         }
@@ -48,38 +51,7 @@ namespace ShipsBattle
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            Controller.Update();
-
-
-
-            
-            //Player1.Update();
-
-            //foreach (var splash in splashes)
-            //    splash.Update();
-
-
-            //if (Keyboard.GetState().IsKeyDown(Keys.I))
-            //    Player2.MoveTo(Direction.Forward);
-
-            //if (Keyboard.GetState().IsKeyDown(Keys.J))
-            //    Player2.MoveTo(Direction.Left);
-
-            //if (Keyboard.GetState().IsKeyDown(Keys.K))
-            //    Player2.MoveTo(Direction.Backward);
-
-            //if (Keyboard.GetState().IsKeyDown(Keys.L))
-            //    Player2.MoveTo(Direction.Right);
-
-
-            //if (Keyboard.GetState().IsKeyDown(Keys.U))
-            //    Player2.Rotate(-1);
-            //if (Keyboard.GetState().IsKeyDown(Keys.O))
-            //    Player2.Rotate(1);
-
-
-            //if (Collide())
-            //    Rock.ChangeColor(Color.Red);
+            Controller.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -92,49 +64,62 @@ namespace ShipsBattle
             
             Drawer.Draw(_spriteBatch);
 
-
-
-            //if(splashes != null)
-            //{
-            //    foreach (var splash in splashes)
-            //        splash.Draw(_spriteBatch);
-            //}
-            
-            
-            //_spriteBatch.Draw(_background, new Vector2(0, 0), Color.White);
-
-            //Player1.Draw(_spriteBatch);
-
-
-            //_spriteBatch.Draw(texture,
-            //                  Player2.Position(),
-            //                  null,
-            //                  Color.White);
-
-
-            //Rock.Draw(_spriteBatch);
-
-            //foreach(var splash in splashes)
-            //    splash.Draw(_spriteBatch);
-
             _spriteBatch.End();
 
             base.Draw(gameTime);
         }
 
-        //public static void ShipsFire(Vector2 position, Vector2 direction)
-        //{
-        //    splashes.Add(new Splash(position.X, position.Y, _splash, direction));
-        //}
 
-        //protected bool Collide()
-        //{
-        //    Rectangle firstSprite = new Rectangle((int)Rock.Position().X,
-        //        (int)Rock.Position().Y, rock.Width, rock.Height);
-        //    Rectangle secondSprite = new Rectangle((int)Player1.X,
-        //        (int)Player1.Y, texture.Width, texture.Height);
 
-        //    return secondSprite.Intersects(firstSprite);
-        //}
+        private void InitializePlayers()
+        {
+            
+            Player1 = new Player("Player1")
+            {
+                Bullet = new Bullet("Bullet"),
+                Position = new(100, 100),
+                Speed = 5,
+                Origin = new Vector2(110, 120),
+                LinerVelocity = 4,
+                RotationVelocity = 3,
+                Rotation = 0,
+                Scale = 0.2f,
+                Input = new Input()
+                {
+                    Down = Keys.S,
+                    Up = Keys.W,
+                    Left = Keys.A,
+                    Right = Keys.D, 
+                    RotateLeft = Keys.Q,
+                    RotateRight = Keys.E,
+                    Shoot = Keys.LeftShift
+                }
+            };
+            Player2 = new Player("Player2")
+            {
+                Bullet = new Bullet("Bullet"),
+                Position = new(200, 100),
+                Speed = 5,
+                Origin = new Vector2(110, 120),
+                LinerVelocity = 4,
+                RotationVelocity = 3,
+                Rotation = 0,
+                Scale = 0.2f,
+                Input = new Input()
+                {
+                    Down = Keys.K,
+                    Up = Keys.I,
+                    Left = Keys.J,
+                    Right = Keys.L,
+                    RotateLeft = Keys.U,
+                    RotateRight = Keys.O,
+                    Shoot = Keys.RightShift
+                }
+            };
+            Global.Entities.Add(Player1);
+            Global.Entities.Add(Player2);
+            Player1.UpdateViewData();
+            Player2.UpdateViewData();
+        }
     }
 }
