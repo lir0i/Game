@@ -10,9 +10,19 @@ namespace ShipsBattle
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        
-        public Drawer Drawer;
-        public Controller Controller;
+
+        private State _currentState;
+
+        private State _nextState;
+
+        public void ChangeState(State state)
+        {
+            _nextState = state;
+        }
+
+
+        public static Drawer Drawer;
+        public static Controller Controller;
 
         public static Player Player1;
         public static Player Player2;
@@ -33,6 +43,7 @@ namespace ShipsBattle
             Drawer = new Drawer();
             Controller = new Controller();
             Global.Content = Content;
+            Global.GraphicsDevice = GraphicsDevice;
 
             InitializePlayers();
 
@@ -43,15 +54,26 @@ namespace ShipsBattle
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             Drawer.LoadTexture();
+
+            _currentState = new MenuState(this);
         }
 
         protected override void Update(GameTime gameTime)
         {
-            
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            if (_nextState != null)
+            {
+                _currentState = _nextState;
+                _nextState = null;
+            }
 
-            Controller.Update(gameTime);
+            _currentState.Update(gameTime);
+
+            _currentState.PostUpdate(gameTime);
+
+            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            //    Exit();
+
+            //Controller.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -60,11 +82,13 @@ namespace ShipsBattle
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            _spriteBatch.Begin();
-            
-            Drawer.Draw(_spriteBatch);
+            _currentState.Draw(gameTime, _spriteBatch);
 
-            _spriteBatch.End();
+            //_spriteBatch.Begin();
+            
+            //Drawer.Draw(_spriteBatch);
+
+            //_spriteBatch.End();
 
             base.Draw(gameTime);
         }
@@ -79,11 +103,10 @@ namespace ShipsBattle
                 Bullet = new Bullet("Bullet"),
                 Position = new(100, 100),
                 Speed = 5,
-                Origin = new Vector2(110, 120),
+                Origin = new Vector2(50, 56),
                 LinerVelocity = 4,
                 RotationVelocity = 3,
                 Rotation = 0,
-                Scale = 0.2f,
                 Input = new Input()
                 {
                     Down = Keys.S,
@@ -98,13 +121,12 @@ namespace ShipsBattle
             Player2 = new Player("Player2")
             {
                 Bullet = new Bullet("Bullet"),
-                Position = new(200, 100),
+                Position = new(500, 100),
                 Speed = 5,
-                Origin = new Vector2(110, 120),
+                Origin = new Vector2(50, 56),
                 LinerVelocity = 4,
                 RotationVelocity = 3,
                 Rotation = 0,
-                Scale = 0.2f,
                 Input = new Input()
                 {
                     Down = Keys.K,

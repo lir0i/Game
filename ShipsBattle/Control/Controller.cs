@@ -27,6 +27,9 @@ namespace ShipsBattle
                         break;
                     }
                 }
+                if (entity.IsRemoved)
+                    Global.RemoveEntity(entity);
+
 
                 entity.UpdateViewData();
             }
@@ -65,7 +68,17 @@ namespace ShipsBattle
 
             if (pressedKey.IsKeyDown(input.Shoot))
                 player.Shoot();
-                
+
+            foreach (var entity in Global.Entities)
+            {
+                if(entity == player) continue;
+                if (entity.Rectangle.Intersects(player.Rectangle))
+                    if (entity.Parent != player)
+                        player.IsDied = true;
+            }
+
+            if (player.IsDied)
+                Global.RemoveEntity(player);
         }
 
         private void Update(Bullet bullet, GameTime gameTime)
@@ -74,7 +87,6 @@ namespace ShipsBattle
 
             if (bullet.Timer > bullet.LifeSpan)
             {
-                Global.RemoveEntity(bullet);
                 bullet.IsRemoved = true;
             }
             

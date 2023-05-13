@@ -16,7 +16,7 @@ namespace ShipsBattle
         public readonly Vector2 Origin;
         public readonly Color Color;
         public readonly float Speed;
-        public readonly float RotationSpeed;
+        public readonly float Rotation;
         public readonly Rectangle? SourceRectangle;
         public readonly float Scale;
         public readonly SpriteEffects SpriteEffects;
@@ -24,7 +24,7 @@ namespace ShipsBattle
 
         public readonly bool IsRemoved;
 
-        public ViewData(Type type, string name, Vector2 position, Color color, Vector2 origin,bool isRemoved, float speed = 0, float rotationSpeed = 0, Rectangle? sourceRectangle = null, float scale = 1, SpriteEffects spriteEffects = SpriteEffects.None, float layerDepth = 0)
+        public ViewData(Type type, string name, Vector2 position, Color color, Vector2 origin,bool isRemoved, float speed = 0, float rotation = 0, Rectangle? sourceRectangle = null, float scale = 1, SpriteEffects spriteEffects = SpriteEffects.None, float layerDepth = 0)
         {
             Type = type;
             Name = name;
@@ -32,7 +32,7 @@ namespace ShipsBattle
             Origin = origin;
             Color = color;
             Speed = speed;
-            RotationSpeed = rotationSpeed;
+            Rotation = rotation;
             SourceRectangle = sourceRectangle;
             Scale = scale;
             SpriteEffects = spriteEffects;

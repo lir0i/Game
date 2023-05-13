@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace ShipsBattle
 {
     public class Global
     {
         public static ContentManager Content;
+        public static GraphicsDevice GraphicsDevice;
 
         public static List<Entity> Entities = new();
 

@@ -11,7 +11,7 @@ namespace ShipsBattle
 {
     public class Drawer
     {
-        private static readonly Dictionary<string, Texture2D> Sprites = new();
+        public static readonly Dictionary<string, Texture2D> Sprites = new();
 
         public static List<ViewData> Data = new();
 
@@ -28,7 +28,7 @@ namespace ShipsBattle
                     view.Position ,
                     view.SourceRectangle, 
                     view.Color, 
-                    view.RotationSpeed, 
+                    view.Rotation, 
                     view.Origin, 
                     view.Scale, 
                     view.SpriteEffects, 
