@@ -13,7 +13,6 @@ namespace ShipsBattle
     public class Bullet : Entity , ICloneable
     {
         public float LifeSpan = 0;
-        public Entity Parent;
 
         public float Timer;
 

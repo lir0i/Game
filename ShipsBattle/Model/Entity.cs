@@ -19,6 +19,7 @@ namespace ShipsBattle
         public Vector2 Direction;
 
         public bool IsRemoved = false;
+        public Entity Parent = null;
 
         public Vector2 Origin;
         public float Rotation;
@@ -29,6 +30,17 @@ namespace ShipsBattle
 
         //public SpriteEffects SpriteEffects = SpriteEffects.None;
         //public float LayerDepth = 0;
+
+        public Rectangle Rectangle
+        {
+            get
+            {
+                var texture = Drawer.Sprites[this.GetType().Name];
+                return new Rectangle((int)Position.X, (int)Position.Y, texture.Width, texture.Height);
+            }
+        }
+
+
 
         public virtual void Update(GameTime gameTime)
         {
