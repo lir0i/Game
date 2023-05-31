@@ -12,31 +12,30 @@ namespace ShipsBattle
     {
         public void Update(GameTime gameTime)
         {
-            foreach (var entity in Global.Entities)
+            foreach (var sprite in Global.Sprites)
             {
-                switch (entity.GetType().Name)
+                switch (sprite.GetType().Name)
                 {
                     case "Player":
                     {
-                        Update((Player)entity, gameTime);
+                        Update((Player)sprite, gameTime);
                         break;
                     }
                     case "Bullet":
                     {
-                        Update((Bullet)entity, gameTime);
+                        Update((Bullet)sprite, gameTime);
                         break;
                     }
                 }
-                if (entity.IsRemoved)
-                    Global.RemoveEntity(entity);
 
-
-                entity.UpdateViewData();
+                ViewDataBuilder.Build(sprite);
             }
+        }
 
+        public void PostUpdate(GameTime gameTime)
+        {
             Global.AddToEntities();
             Global.RemoveFromEntities();
-            
         }
 
 
@@ -69,12 +68,15 @@ namespace ShipsBattle
             if (pressedKey.IsKeyDown(input.Shoot))
                 player.Shoot();
 
-            foreach (var entity in Global.Entities)
+            foreach (var sprite in Global.Sprites)
             {
-                if(entity == player) continue;
-                if (entity.Rectangle.Intersects(player.Rectangle))
-                    if (entity.Parent != player)
+                if(sprite == player) continue;
+                if (sprite.Rectangle.Intersects(player.Rectangle) && sprite.GetType().Name == "Bullet")
+                {
+                    var bullet = sprite as Bullet;
+                    if (bullet?.Parent != player)
                         player.IsDied = true;
+                }
             }
 
             if (player.IsDied)

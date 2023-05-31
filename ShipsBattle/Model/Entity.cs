@@ -10,74 +10,21 @@ using System.Threading.Tasks;
 
 namespace ShipsBattle
 {
-    public class Entity
+    public class Entity : Sprite
     {
-        public string Name;
-        public Vector2 Position;
-        public Color Color = Color.White;
         public float Speed;
-        public Vector2 Direction;
 
         public bool IsRemoved = false;
-        public Entity Parent = null;
+        
 
-        public Vector2 Origin;
-        public float Rotation;
         public float RotationVelocity;
         public float LinerVelocity;
         public Rectangle? SourceRectangle = null;
         public float Scale = 1;
 
-        //public SpriteEffects SpriteEffects = SpriteEffects.None;
-        //public float LayerDepth = 0;
 
-        public Rectangle Rectangle
+        public Entity(string name, Vector2 position, int hitBoxHeight, int hitBoxWidth, Vector2 direction) : base(name, position, hitBoxHeight, hitBoxWidth, direction)
         {
-            get
-            {
-                var texture = Drawer.Sprites[this.GetType().Name];
-                return new Rectangle((int)Position.X, (int)Position.Y, texture.Width, texture.Height);
-            }
-        }
-
-
-
-        public virtual void Update(GameTime gameTime)
-        {
-            return;
-        }
-
-        public void UpdateViewData()
-        {
-            //Drawer.Data[Name] = new ViewData(
-            //    GetType(),
-            //    Name,
-            //    Position,
-            //    Color,
-            //    Origin,
-            //    IsRemoved,
-            //    Speed,
-            //    Rotation,
-            //    SourceRectangle,
-            //    Scale//,
-            //    //SpriteEffects,
-            //    //LayerDepth
-            //);
-
-            Drawer.Data.Add(new ViewData(
-                GetType(),
-                Name,
-                Position,
-                Color,
-                Origin,
-                IsRemoved,
-                Speed,
-                Rotation,
-                SourceRectangle,
-                Scale //,
-                //SpriteEffects,
-                //LayerDepth
-            ));
         }
     }
 }

@@ -13,18 +13,18 @@ namespace ShipsBattle
         public static ContentManager Content;
         public static GraphicsDevice GraphicsDevice;
 
-        public static List<Entity> Entities = new();
+        public static List<Sprite> Sprites = new();
 
-        private static readonly List<Entity> ToAdd = new();
-        private static readonly List<Entity> ToRemove = new();
+        private static readonly List<Sprite> ToAdd = new();
+        private static readonly List<Sprite> ToRemove = new();
 
         public static void RemoveFromEntities()
         {
             if (ToRemove.Count == 0)
                 return;
-            foreach (var entity in ToRemove)
+            foreach (var sprite in ToRemove)
             {
-                Entities.Remove(entity);
+                Sprites.Remove(sprite);
             }
             ToRemove.Clear();
         }
@@ -33,21 +33,21 @@ namespace ShipsBattle
         {
             if(ToAdd.Count == 0)
                 return;
-            foreach (var entity in ToAdd)
+            foreach (var sprite in ToAdd)
             {
-                Entities.Add(entity);
+                Sprites.Add(sprite);
             }
             ToAdd.Clear();
         }
 
-        public static void AddEntity(Entity entity)
+        public static void AddEntity(Entity sprite)
         {
-            ToAdd.Add(entity);
+            ToAdd.Add(sprite);
         }
 
-        public static void RemoveEntity(Entity entity)
+        public static void RemoveEntity(Entity sprite)
         {
-            ToRemove.Add(entity);
+            ToRemove.Add(sprite);
         }
 
     }

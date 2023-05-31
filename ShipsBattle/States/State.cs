@@ -10,7 +10,7 @@ namespace ShipsBattle
 {
     public abstract class State
     {
-        protected Game1 _game;
+        protected ShipsBattle Game;
 
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
 
@@ -18,9 +18,9 @@ namespace ShipsBattle
 
         public abstract void PostUpdate(GameTime gameTime);
 
-        public State(Game1  game)
+        protected State(ShipsBattle  game)
         {
-            _game = game;
+            Game = game;
         }
     }
 }

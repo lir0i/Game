@@ -13,36 +13,29 @@ namespace ShipsBattle
 {
     public class Player : Entity
     {
-        public Bullet Bullet;
         public Input Input;
         public bool IsDied = false;
 
-        public Player(string name)
+        public Player(string name, Vector2 position, int hitBoxHeight, int hitBoxWidth, Vector2 direction, Input input) 
+            : base(name, position, hitBoxHeight, hitBoxWidth, direction)
         {
-            Name = name;
+            Input = input;
+            Speed = 2f;
+            LinerVelocity = 2f;
+            RotationVelocity = 2f;
         }
 
         public void Shoot()
         {
-            var bullet = Bullet.Clone() as Bullet;
-            bullet.Direction = Direction;
-            bullet.Position = Position;
-            bullet.LinerVelocity = LinerVelocity * 2;
-            bullet.LifeSpan = 2;
-            bullet.Parent = this;
-            bullet.Origin = new Vector2(10, 65);
-            bullet.Rotation = Rotation;
-            Global.AddEntity(bullet);
-        }
+            var newBullet = new Bullet("bullet" + Name, Position, 10, 10, Direction)
+            {
+                LifeSpan = 2,
+                Parent = this,
+                LinerVelocity = LinerVelocity * 2,
+                Rotation = Rotation
+            };
 
-        public void Move(Vector2 offset)
-        {
-            Position += offset;
-        }
-
-        public void Rotate(float offset)
-        {
-            Rotation += offset;
+            Global.AddEntity(newBullet);
         }
     }
 }

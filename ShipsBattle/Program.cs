@@ -1,3 +1,3 @@
 ﻿
-using var game = new ShipsBattle.Game1();
+using var game = new ShipsBattle.ShipsBattle();
 game.Run();

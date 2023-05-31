@@ -11,27 +11,27 @@ namespace ShipsBattle
 {
     public class GameState : State
     {
-        
-
-        public GameState(Game1 game) : base(game)
+        public GameState(ShipsBattle game) : base(game)
         {
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
+                Keyboard.GetState().IsKeyDown(Keys.Escape))
+                Game.Exit();
+
+            ShipsBattle.Controller.Update(gameTime);
+            ShipsBattle.Controller.PostUpdate(gameTime);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
 
-            Game1.Drawer.Draw(spriteBatch);
+            ShipsBattle.Drawer.Draw(spriteBatch);
 
             spriteBatch.End();
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                _game.Exit();
-
-            Game1.Controller.Update(gameTime);
         }
 
         public override void PostUpdate(GameTime gameTime)

@@ -10,9 +10,9 @@ namespace ShipsBattle
 {
     public class MenuState : State
     {
-        private List<Component> _components;
+        private readonly List<Component> _components;
 
-        public MenuState(Game1 game1) : base(game1)
+        public MenuState(ShipsBattle game) : base(game)
         {
             var buttonTexture = Global.Content.Load<Texture2D>("Button");
             var buttonFont = Global.Content.Load<SpriteFont>("Fonts/Font");
@@ -23,7 +23,7 @@ namespace ShipsBattle
                 Text = "New Game"
             };
 
-            newGameButton.Click += NewGameButton_Click;
+            newGameButton.Click += NewGameButtonClick;
 
             var loadGameButton = new Button(buttonTexture, buttonFont)
             {
@@ -31,7 +31,7 @@ namespace ShipsBattle
                 Text = "Load Game"
             };
 
-            loadGameButton.Click += LoadGameButton_Click;
+            loadGameButton.Click += LoadGameButtonClick;
 
             var quitGameButton = new Button(buttonTexture, buttonFont)
             {
@@ -39,7 +39,7 @@ namespace ShipsBattle
                 Text = "Quit"
             };
 
-            quitGameButton.Click += QuitGameButton_Click;
+            quitGameButton.Click += QuitGameButtonClick;
 
             _components = new List<Component>()
             {
@@ -74,19 +74,19 @@ namespace ShipsBattle
             //todo
         }
         
-        private void NewGameButton_Click(object sender, EventArgs e)
+        private void NewGameButtonClick(object sender, EventArgs e)
         {
-            _game.ChangeState(new GameState(_game));
+            Game.ChangeState(new LevelSelectionState(Game));
         }
         
-        private void LoadGameButton_Click(object sender, EventArgs e)
+        private void LoadGameButtonClick(object sender, EventArgs e)
         {
-            Console.WriteLine("япокачто не сделяль");
+            Console.WriteLine("я пока что не сделяль");
         }
 
-        private void QuitGameButton_Click(object sender, EventArgs e)
+        private void QuitGameButtonClick(object sender, EventArgs e)
         {
-            _game.Exit();
+            Game.Exit();
         }
     }
 }
