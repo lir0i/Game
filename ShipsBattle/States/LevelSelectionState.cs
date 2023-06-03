@@ -14,19 +14,19 @@ namespace ShipsBattle
 
         public LevelSelectionState(ShipsBattle game) : base(game)
         {
-            var buttonTexture = Global.Content.Load<Texture2D>("Button");
+            var buttonTexture = Global.Content.Load<Texture2D>("button3");
             var buttonFont = Global.Content.Load<SpriteFont>("Fonts/Font");
 
             var tutorialButton = new Button(buttonTexture, buttonFont)
             {
-                Position = new Vector2(300, 300),
+                Position = new Vector2(100, 300),
                 Text = "Tutorial"
             };
             tutorialButton.Click += TutorialButtonClick;
 
             var firstLevelButton = new Button(buttonTexture, buttonFont)
             {
-                Position = new Vector2(600, 300),
+                Position = new Vector2(500, 300),
                 Text = "1 Level"
             };
             firstLevelButton.Click += FirstLevelButtonClick;
@@ -40,7 +40,7 @@ namespace ShipsBattle
 
             var thirdLevelButton = new Button(buttonTexture, buttonFont)
             {
-                Position = new Vector2(1200, 300),
+                Position = new Vector2(1300, 300),
                 Text = "3 Level"
             };
             thirdLevelButton.Click += ThirdLevelButtonClick;
@@ -56,17 +56,23 @@ namespace ShipsBattle
 
         private void ThirdLevelButtonClick(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            LevelManager.LoadThirdLevel();
+            LevelManager.UploadLevel();
+            Game.ChangeState(new GameState(Game));
         }
 
         private void SecondLevelButtonClick(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            LevelManager.LoadSecondLevel();
+            LevelManager.UploadLevel();
+            Game.ChangeState(new GameState(Game));
         }
 
         private void FirstLevelButtonClick(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            LevelManager.LoadFirstLevel();
+            LevelManager.UploadLevel();
+            Game.ChangeState(new GameState(Game));
         }
 
         private void TutorialButtonClick(object sender, EventArgs e)
@@ -80,6 +86,7 @@ namespace ShipsBattle
         {
             spriteBatch.Begin();
 
+            spriteBatch.Draw(Drawer.Sprites["space-stars"], new Vector2(0, 0), Color.White);
             foreach (var component in _components)
             {
                 component.Draw(gameTime, spriteBatch);

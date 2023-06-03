@@ -21,8 +21,15 @@ namespace ShipsBattle
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Game.Exit();
 
+
+
             ShipsBattle.Controller.Update(gameTime);
             ShipsBattle.Controller.PostUpdate(gameTime);
+
+            if (ShipsBattle.Controller.IsFinished)
+            {
+                Game.ChangeState(new GameResultState(Game, ShipsBattle.Controller.WinnerName));
+            }
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)

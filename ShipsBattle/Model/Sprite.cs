@@ -11,7 +11,7 @@ namespace ShipsBattle
     { 
         public string Name { get; private set; }
         public Vector2 Position { get; private set; }
-        public Vector2 Origin { get; }
+        public Vector2 Origin { get; private set; }
         public int HitBoxHeight { get; }
         public int HitBoxWidth { get; }
         public float Rotation { get; set; }
@@ -27,6 +27,11 @@ namespace ShipsBattle
             HitBoxWidth = hitBoxWidth;
             Direction = direction;
             Color = Color.White;
+        }
+
+        public void RewriteOrigin(Vector2 origin)
+        {
+            Origin = origin;
         }
 
         public void Move(Vector2 offset)

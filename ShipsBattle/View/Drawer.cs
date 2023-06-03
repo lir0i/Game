@@ -12,8 +12,8 @@ namespace ShipsBattle
     public class Drawer
     {
         public static readonly Dictionary<string, Texture2D> Sprites = new();
-
-        public static List<ViewData> Data = new();
+        private static readonly SpriteFont Font = Global.Content.Load<SpriteFont>("Fonts/Font");
+        private static readonly List<ViewData> Data = new();
 
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -21,8 +21,6 @@ namespace ShipsBattle
 
             foreach (var view in Data)
             {
-                if (view.IsRemoved)
-                    continue;
                 spriteBatch.Draw(
                     Sprites[view.Type.Name], 
                     view.Position ,
@@ -33,22 +31,34 @@ namespace ShipsBattle
                     view.Scale, 
                     view.SpriteEffects, 
                     view.LayerDepth);
+                if (view.Type == typeof(Player))
+                {
+                    spriteBatch.DrawString(Font, "Health:" + view.Health, new Vector2(view.Position.X + view.Origin.X, view.Position.Y + view.Origin.Y), Color.White);
+                }
             }
 
             Data.Clear();
         }
 
+        public static void AddToData(ViewData view)
+        {
+            Data.Add(view);
+        }
         private static void DrawBackground(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Sprites["Background"], new Vector2(0, 0), Color.White);
+            spriteBatch.Draw(Sprites[Global.BackgroundName], new Vector2(0, 0), Color.White);
         }
 
         public static void LoadTexture()
         {
             AddToSprites("Player", "ship (1)");
             AddToSprites("Bullet", "splash");
+            AddToSprites("Asteroid", "rock");
             AddToSprites("Entity", "rock");
-            AddToSprites("Background", "space-stars");
+            AddToSprites("space", "space");
+            AddToSprites("space-stars", "space-stars");
+            AddToSprites("state", "state");
+            AddToSprites("main_menu", "main_menu");
         }
 
         private static void AddToSprites(string type, string sprite)

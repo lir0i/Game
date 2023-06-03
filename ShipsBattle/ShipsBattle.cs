@@ -26,8 +26,8 @@ namespace ShipsBattle
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            _graphics.PreferredBackBufferWidth = 1440;
-            _graphics.PreferredBackBufferHeight = 1080;
+            _graphics.PreferredBackBufferWidth = 1800;
+            _graphics.PreferredBackBufferHeight = 1000;
             _graphics.ApplyChanges();
 
         }

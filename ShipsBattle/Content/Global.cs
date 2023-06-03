@@ -14,6 +14,7 @@ namespace ShipsBattle
         public static GraphicsDevice GraphicsDevice;
 
         public static List<Sprite> Sprites = new();
+        public static string BackgroundName;
 
         private static readonly List<Sprite> ToAdd = new();
         private static readonly List<Sprite> ToRemove = new();
@@ -29,7 +30,7 @@ namespace ShipsBattle
             ToRemove.Clear();
         }
 
-        public static void AddToEntities()
+        public static void AddToSprites()
         {
             if(ToAdd.Count == 0)
                 return;
@@ -40,12 +41,12 @@ namespace ShipsBattle
             ToAdd.Clear();
         }
 
-        public static void AddEntity(Entity sprite)
+        public static void AddSprite(Entity sprite)
         {
             ToAdd.Add(sprite);
         }
 
-        public static void RemoveEntity(Entity sprite)
+        public static void RemoveSprite(Entity sprite)
         {
             ToRemove.Add(sprite);
         }

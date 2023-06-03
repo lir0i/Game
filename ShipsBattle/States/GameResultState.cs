@@ -8,43 +8,24 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace ShipsBattle
 {
-    public class MenuState : State
+    public class GameResultState : State
     {
         private readonly List<Component> _components;
-
-        public MenuState(ShipsBattle game) : base(game)
+        private readonly SpriteFont _font = Global.Content.Load<SpriteFont>("Fonts/Font");
+        private readonly string _winnerName;
+        public GameResultState(ShipsBattle game, string winnerName) : base(game)
         {
             var buttonTexture = Global.Content.Load<Texture2D>("button3");
-            var buttonFont = Global.Content.Load<SpriteFont>("Fonts/Font");
-
-            var newGameButton = new Button(buttonTexture, buttonFont)
+            _winnerName = winnerName;
+            var quitGameButton = new Button(buttonTexture, _font)
             {
-                Position = new Vector2(300, 200),
-                Text = "New Game"
-            };
-
-            newGameButton.Click += NewGameButtonClick;
-
-            var loadGameButton = new Button(buttonTexture, buttonFont)
-            {
-                Position = new Vector2(300, 400),
-                Text = "Load Game"
-            };
-
-            loadGameButton.Click += LoadGameButtonClick;
-
-            var quitGameButton = new Button(buttonTexture, buttonFont)
-            {
-                Position = new Vector2(300, 600),
+                Position = new Vector2(700, 600),
                 Text = "Quit"
             };
-
             quitGameButton.Click += QuitGameButtonClick;
 
             _components = new List<Component>()
             {
-                newGameButton,
-                loadGameButton,
                 quitGameButton
             };
         }
@@ -54,11 +35,13 @@ namespace ShipsBattle
             spriteBatch.Begin();
 
             spriteBatch.Draw(Drawer.Sprites["space-stars"], new Vector2(0, 0), Color.White);
+
             foreach (var component in _components)
             {
                 component.Draw(gameTime, spriteBatch);
             }
 
+            spriteBatch.DrawString(_font, _winnerName + " WIN!!!", new Vector2(700, 500), Color.DarkRed, 0, Vector2.Zero, new Vector2(4), SpriteEffects.None, 0);
             spriteBatch.End();
         }
 
@@ -74,20 +57,10 @@ namespace ShipsBattle
         {
             //todo
         }
-        
-        private void NewGameButtonClick(object sender, EventArgs e)
-        {
-            Game.ChangeState(new LevelSelectionState(Game));
-        }
-        
-        private void LoadGameButtonClick(object sender, EventArgs e)
-        {
-            Console.WriteLine("я пока что не сделяль");
-        }
 
         private void QuitGameButtonClick(object sender, EventArgs e)
         {
-            Game.Exit();
+            Game.ChangeState(new MenuState(Game));
         }
     }
 }
