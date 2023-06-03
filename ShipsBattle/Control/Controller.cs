@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
+
 namespace ShipsBattle
 {
     public class Controller
@@ -116,11 +117,18 @@ namespace ShipsBattle
 
             if (bullet.Timer > bullet.LifeSpan)
             {
-                bullet.IsRemoved = true;
-            }
-            
-            if (bullet.IsRemoved)
                 Global.RemoveSprite(bullet);
+            }
+
+            foreach (var sprite in Global.Sprites)
+            {
+                if (sprite == bullet) continue;
+                if (sprite.Rectangle.Intersects(bullet.Rectangle) && sprite.GetType().Name == "Asteroid")
+                {
+                    Global.RemoveSprite(bullet);
+                }
+
+            }
 
             bullet.Move(bullet.Direction * bullet.LinerVelocity);
         }

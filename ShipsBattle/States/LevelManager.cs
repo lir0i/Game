@@ -92,10 +92,10 @@ namespace ShipsBattle
             {
                 new Player(
                     "Player1",
-                    new(100, 100),
+                    new(100, 500),
                     Drawer.Sprites["Player"].Height,
                     Drawer.Sprites["Player"].Width,
-                    new(0, 1),
+                    new(0, 0),
                     new Input
                     {
                         Down = Keys.S,
@@ -106,17 +106,17 @@ namespace ShipsBattle
                         RotateRight = Keys.E,
                         Shoot = Keys.R
                     },
-                    1.4f,
+                    2f,
                     8,
                     Color.DeepPink
                 ),
 
                 new Player(
                     "Player2",
-                    new(500, 500),
+                    new(1600, 500),
                     Drawer.Sprites["Player"].Height,
                     Drawer.Sprites["Player"].Width,
-                    new(0, -1),
+                    new(0, 0),
                     new Input
                     {
                         Down = Keys.K,
@@ -127,10 +127,51 @@ namespace ShipsBattle
                         RotateRight = Keys.O,
                         Shoot = Keys.P
                     },
-                    1.4f,
+                    2f,
                     8,
                     Color.White
                 ),
+
+                new Asteroid("asteroid",
+                    new Vector2(900, 500),
+                    Drawer.Sprites["Asteroid"].Height,
+                    Drawer.Sprites["Asteroid"].Width,
+                    new Vector2(0, 0),
+                    0.4f,
+                    1f,
+                    true),
+                new Asteroid("asteroid",
+                    new Vector2(900, 300),
+                    Drawer.Sprites["Asteroid"].Height,
+                    Drawer.Sprites["Asteroid"].Width,
+                    new Vector2(0, 0),
+                    0.5f,
+                    1f,
+                    true),
+                new Asteroid("asteroid",
+                    new Vector2(900, 100),
+                    Drawer.Sprites["Asteroid"].Height,
+                    Drawer.Sprites["Asteroid"].Width,
+                    new Vector2(0, 0),
+                    0.1f,
+                    1f,
+                    true),
+                new Asteroid("asteroid",
+                    new Vector2(900, 700),
+                    Drawer.Sprites["Asteroid"].Height,
+                    Drawer.Sprites["Asteroid"].Width,
+                    new Vector2(0, 0),
+                    0.2f,
+                    1f,
+                    true),
+                new Asteroid("asteroid",
+                    new Vector2(900, 900),
+                    Drawer.Sprites["Asteroid"].Height,
+                    Drawer.Sprites["Asteroid"].Width,
+                    new Vector2(0, 0),
+                    0.2f,
+                    1f,
+                    true),
 
             };
 
