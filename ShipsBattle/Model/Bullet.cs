@@ -10,34 +10,23 @@ using System.ComponentModel;
 
 namespace ShipsBattle
 {
-    public class Bullet : Entity , ICloneable
+    public class Bullet : Entity
     {
         public float LifeSpan = 0;
-
+        public Entity Parent;
         public float Timer;
 
-        public Bullet(string name)
+        public Bullet(string name, Vector2 position, int hitBoxHeight, int hitBoxWidth, Vector2 direction) : base(name, position, hitBoxHeight, hitBoxWidth, direction)
         {
-            Name = name;
-        }
-
-        public void Move(Vector2 offset)
-        {
-            Position += offset;
         }
 
 
-        public override void Update(GameTime gameTime)
-        {
-            Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (Timer > LifeSpan)
-                IsRemoved = true;
-        }
 
-        public object Clone()
-        {
-            return this.MemberwiseClone();
-        }
+
+        //public object Clone()
+        //{
+        //    return this.MemberwiseClone();
+        //}
     }
 }

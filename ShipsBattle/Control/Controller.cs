@@ -6,37 +6,45 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
+
 namespace ShipsBattle
 {
     public class Controller
     {
+        public bool IsFinished;
+        public string WinnerName;
+        private KeyboardState _previousPressedKey;
         public void Update(GameTime gameTime)
         {
-            foreach (var entity in Global.Entities)
+            foreach (var sprite in Global.Sprites)
             {
-                switch (entity.GetType().Name)
+                switch (sprite.GetType().Name)
                 {
                     case "Player":
                     {
-                        Update((Player)entity, gameTime);
+                        Update((Player)sprite, gameTime);
                         break;
                     }
                     case "Bullet":
                     {
-                        Update((Bullet)entity, gameTime);
+                        Update((Bullet)sprite, gameTime);
+                        break;
+                    }
+                    case "Asteroid":
+                    {
+                        Update((Asteroid)sprite, gameTime);
                         break;
                     }
                 }
-                if (entity.IsRemoved)
-                    Global.RemoveEntity(entity);
 
-
-                entity.UpdateViewData();
+                ViewDataBuilder.Build(sprite);
             }
+        }
 
-            Global.AddToEntities();
+        public void PostUpdate(GameTime gameTime)
+        {
+            Global.AddToSprites();
             Global.RemoveFromEntities();
-            
         }
 
 
@@ -66,19 +74,41 @@ namespace ShipsBattle
                 player.Move(-new Vector2(player.Direction.Y, -player.Direction.X) * player.Speed);
 
 
-            if (pressedKey.IsKeyDown(input.Shoot))
+            if (pressedKey.IsKeyDown(input.Shoot) && _previousPressedKey.IsKeyUp(input.Shoot))
                 player.Shoot();
 
-            foreach (var entity in Global.Entities)
+            foreach (var sprite in Global.Sprites)
             {
-                if(entity == player) continue;
-                if (entity.Rectangle.Intersects(player.Rectangle))
-                    if (entity.Parent != player)
-                        player.IsDied = true;
+                if(sprite == player) continue;
+                if (sprite.Rectangle.Intersects(player.Rectangle))
+                {
+                    if (sprite.GetType().Name == "Bullet")
+                    {
+                        var bullet = sprite as Bullet;
+                        if (bullet?.Parent != player)
+                        {
+                            player.Health--;
+                            Global.RemoveSprite(bullet);
+                        }
+                    }
+
+                    if (sprite.GetType().Name == "Asteroid")
+                    {
+                        player.Health--;
+                    }
+                }
             }
 
-            if (player.IsDied)
-                Global.RemoveEntity(player);
+            if (player.Health <= 0)
+            {
+                player.IsDied = true;
+                Global.RemoveSprite(player);
+                IsFinished = true;
+                WinnerName = player.Name == "Player1" ? "Player2" : "Player1";
+            }
+                
+
+            _previousPressedKey = pressedKey;
         }
 
         private void Update(Bullet bullet, GameTime gameTime)
@@ -87,11 +117,39 @@ namespace ShipsBattle
 
             if (bullet.Timer > bullet.LifeSpan)
             {
-                bullet.IsRemoved = true;
+                Global.RemoveSprite(bullet);
             }
-            
+
+            foreach (var sprite in Global.Sprites)
+            {
+                if (sprite == bullet) continue;
+                if (sprite.Rectangle.Intersects(bullet.Rectangle) && sprite.GetType().Name == "Asteroid")
+                {
+                    Global.RemoveSprite(bullet);
+                }
+
+            }
+
             bullet.Move(bullet.Direction * bullet.LinerVelocity);
         }
+        private void Update(Asteroid asteroid, GameTime gameTime)
+        {
+            if (asteroid.IsDestructible)
+            {
+                foreach (var sprite in Global.Sprites)
+                {
+                    if (sprite == asteroid) continue;
+                    if (sprite.Rectangle.Intersects(asteroid.Rectangle) && sprite.GetType().Name == "Bullet")
+                    {
+                        asteroid.IsRemoved = true;
+                    }
+                }
+            }
 
+            if (asteroid.IsRemoved)
+                Global.RemoveSprite(asteroid);
+            asteroid.Move(asteroid.Direction * asteroid.Speed);
+            asteroid.Rotate(asteroid.RotationSpeed);
+        }
     }
 }
